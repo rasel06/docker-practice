@@ -1,41 +1,60 @@
-<?php
-// $connect = mysqli_connect(
-//     'db',
-//     'lamp_docker',
-//     'password',
-//     'lamp_docker'
-// );
+<!doctype html>
+<html lang="en">
 
-$mysqli = new mysqli(
-    'db',
-    'lamp_docker',
-    'password',
-    'lamp_docker'
-);
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doecker :: PHP, MySQL & Bootstrap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
 
-if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-    exit();
-}
+<body>
 
-$query = "SELECT * FROM blogs";
-$result =  mysqli_query($connect, $query);
-
-echo ("<h1>MySQL Data</h1>");
-echo ('<table>');
-while ($item = mysqli_fetch_assoc($result)) {
-
-?>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
 
 
-    <tr>
-        <td><?= $item['id'] ?></td>
-        <td><?= $item['title'] ?></td>
-        <td><?= $item['details'] ?></td>
-        <td><?= $item['date'] ?></td>
+                <div class="card">
+                    <div class="card-header">
+                        Docker :: PHP project, data read from MySQL table
+                    </div>
+                    <div class="card-body shadow p-3 bg-body-tertiary rounded">
+                        <table class="table table-striped ">
+                            <?php
+                            include_once "./src/core/database.php";
 
-        <td></td>
-    </tr>
-<?php
-}
-echo ('</table>');
+                            // Usage example
+                            $db = Database::getInstance();
+
+                            // Read
+                            $blogs = $db->read('blogs');
+
+                            foreach ($blogs as $blog) {
+                            ?>
+                                <tr>
+                                    <td><?= $blog['id'] ?></td>
+                                    <td><?= $blog['title'] ?></td>
+                                    <td><?= $blog['details'] ?></td>
+                                    <td><?= $blog['date'] ?></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                            <button type="button" class="btn btn-danger">Left</button>
+                                            <button type="button" class="btn btn-warning">Middle</button>
+                                            <button type="button" class="btn btn-success">Right</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>
