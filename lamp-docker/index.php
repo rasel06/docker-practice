@@ -29,6 +29,13 @@
                             $db = Database::getInstance();
                             // Read
                             $blogs = $db->read('blogs');
+
+
+                            // $host = 'db';
+                            // $username = 'lamp_docker';
+                            // $password = 'password';
+                            // $database = 'lamp_docker';
+
                             // Close connection
                             $db->getConnection()->close();
 
@@ -37,7 +44,7 @@
                                 <tr>
                                     <td><?= $blog['id'] ?></td>
                                     <td><?= $blog['title'] ?></td>
-                                    <td><?= $blog['details'] ?></td>
+                                    <td><?= substr($blog['details'], 0, 100) ?></td>
                                     <td><?= $blog['date'] ?></td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
