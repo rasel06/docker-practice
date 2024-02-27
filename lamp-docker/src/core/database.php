@@ -35,14 +35,12 @@ class Database
 
     // CRUD methods (replace with your actual logic)
 
-    public function create($data, $table)
+    public function create($table, $data)
     {
         $columns = implode(',', array_keys($data));
         $values = implode("','", array_values($data));
-
         $sql = "INSERT INTO $table ($columns) VALUES ('$values')";
         $result = $this->connection->query($sql);
-
         if ($result) {
             return $this->connection->insert_id;
         } else {
@@ -52,14 +50,11 @@ class Database
 
     public function read($table, $id = null)
     {
-        // $sql = "SELECT * FROM $table " . ($id != null) ? " WHERE id = $id" : "";
         $sql = "SELECT * FROM $table";
-
         if ($id !== null) {
             $sql .= " WHERE id = $id";
         }
         $result = $this->connection->query($sql);
-
         if ($result->num_rows > 0) {
             $data = [];
             while ($row = $result->fetch_assoc()) {
@@ -71,25 +66,22 @@ class Database
         }
     }
 
-    public function update($data, $id, $table)
+    public function update($table, $id, $data)
     {
         $updates = [];
         foreach ($data as $key => $value) {
             $updates[] = "$key='$value'";
         }
         $updates = implode(',', $updates);
-
         $sql = "UPDATE $table SET $updates WHERE id = $id";
         $result = $this->connection->query($sql);
-
         return $result;
     }
 
-    public function delete($id, $table)
+    public function delete($table, $id)
     {
         $sql = "DELETE FROM $table WHERE id = $id";
         $result = $this->connection->query($sql);
-
         return $result;
     }
 }
